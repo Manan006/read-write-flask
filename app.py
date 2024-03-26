@@ -7,8 +7,11 @@ from dotenv import load_dotenv
 load_dotenv()
 app = Flask(__name__)
 
-FILES_FOLDER = "files"
-os.makedirs(FILES_FOLDER, exist_ok=True)
+READ_FOLDER = "/workspace/ComfyUI/output"
+WRITE_FOLDER = "/workspace/ComfyUI/input"
+
+os.makedirs(READ_FOLDER, exist_ok=True)
+os.makedirs(WRITE_FOLDER, exist_ok=True)
 
 TOTP_SECRET = os.getenv("TOTP_SECRET")
 
@@ -29,7 +32,7 @@ def write_file():
     if not filename or not content_base64:
         return jsonify({"message": "Filename and content are required"}), 400
     content = base64.b64decode(content_base64)
-    file_path = os.path.join(FILES_FOLDER, filename)
+    file_path = os.path.join(WRITE_FOLDER, filename)
     with open(file_path, "wb") as file:
         file.write(content)
     return jsonify({"message": f"{filename} saved successfully."})
@@ -40,10 +43,10 @@ def read_file(filename):
     otp_token = request.headers.get("X-OTP")
     if not check_totp(otp_token):
         abort(403)
-    file_path = os.path.join(FILES_FOLDER, filename)
+    file_path = os.path.join(READ_FOLDER, filename)
     if not os.path.exists(file_path):
         return jsonify({"message": "File not found"}), 404
-    return send_from_directory(FILES_FOLDER, filename)
+    return send_from_directory(READ_FOLDER, filename)
 
 
 if __name__ == "__main__":
