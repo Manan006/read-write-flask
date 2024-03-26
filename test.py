@@ -25,8 +25,8 @@ def send_file_to_server(file_path, url, totp_secret):
 
 # Example usage
 if __name__ == "__main__":
-    file_path = "v16m-default.akamaizead.mp4"
-    url = "http://localhost:5000/write"
+    file_path = "/tmp/imagedfds.png"
+    url = "http://5.36.13.93:40781/write"
     totp_secret = os.getenv(
         "TOTP_SECRET"
     )  # Use the same TOTP secret as in your Flask app
