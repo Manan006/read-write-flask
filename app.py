@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 load_dotenv()
 app = Flask(__name__)
 
-READ_FOLDER = "/workspace/ComfyUI/output"
-WRITE_FOLDER = "/workspace/ComfyUI/input"
+READ_FOLDER = "workspace/ComfyUI/output"
+WRITE_FOLDER = "workspace/ComfyUI/input"
 
 os.makedirs(READ_FOLDER, exist_ok=True)
 os.makedirs(WRITE_FOLDER, exist_ok=True)
@@ -50,4 +50,4 @@ def read_file(filename):
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=False, host="0.0.0.0")
