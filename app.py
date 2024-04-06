@@ -49,5 +49,14 @@ def read_file(filename):
     return send_from_directory(READ_FOLDER, filename)
 
 
+@app.route("/check-ready", methods=["GET"])
+def check_ready():
+    ready = os.path.exists("/tmp/start-script-over")
+    if ready:
+        return jsonify({"status": True, "message": "ready"}), 200
+    else:
+        return jsonify({"status": False, "message": "not ready"}), 200
+
+
 if __name__ == "__main__":
     app.run(debug=False, host="0.0.0.0")
